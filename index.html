@@ -58,6 +58,55 @@
       // 🧠 Implement a `getAllReversed` method which returns the ints in reverse order
       // ❗ WARNING: except for `getAllReversed`, methods must respect the order of the integers
       // ❗ WARNING: note that none of the methods actually mutate the `ints` property
+      constructor (...ints) {
+        this.ints = [...ints]
+      }
+      getAll() {
+          return this.ints
+        }
+      getEvens() {
+        let result = []
+        for(let i = 0; i < this.ints.length; i++) {
+          if (this.ints[i] % 2 ===0) {
+            result.push(this.ints[i])
+          }
+        }
+        return result
+      }
+      getNegatives() {
+        let result = []
+        for(let i = 0; i < this.ints.length; i++) {
+          if (this.ints[i] < 0 ) {
+            result.push(this.ints[i])
+          }
+        }
+        return result
+      }
+      getAllSquared() {
+        let result = this.ints.map (int => int ** 2)
+        return result
+      }
+      pop() {
+        return this.ints.pop()
+      }
+      push() {
+        this.ints.push(4)
+        return this.ints
+      }
+      getEveryNth(n) {
+        let result =[]
+        for(let i = 0; i < this.ints.length; i += n) {
+          result.push(this.ints[i])
+        }
+        return result
+      }
+      getAllReversed() {
+        let result = []
+        for(let i = this.ints.length-1; i >= 0; i--) {
+          result.push(this.ints[i])
+        }
+        return result
+      }
 
     }
 
@@ -76,6 +125,38 @@
       //      * When engaging the safety, return "Safety enabled!"
       //      * When disengaging the safety, return "Safety disabled!"
       // 🌟 HINT: instances need to keep track of their maximum capacity as well as their current capacity
+      constructor (ammo) {
+        this.ammo = ammo;
+        this.max = ammo;
+        this.safety = true;
+        }
+      shoot() {
+        if( this.ammo > 0 && this.safety === false) {
+          this.ammo --
+          return "Bang!"
+        } else {
+          return "Click!"
+        }
+      }
+      reload(n) {
+        if (n <= 0 || typeof n !== typeof 1) {
+          return "Error reloading!"
+        }
+        this.ammo += n
+        if(this.ammo > this.max) {
+          this.ammo = this.max
+        }
+        return `${this.ammo} projectiles left!`
+      }
+      toggleSafety() {
+        if (this.safety === true) {
+          this.safety = false
+          return "Safety disabled!"
+        } else {
+          this.safety = true
+          return "Safety enabled!"
+        }
+      }
 
     }
 
@@ -95,7 +176,20 @@
       //    ebook.next() // returns null
       // 🌟 HINT: remember about the `slice` method of arrays
       // ❗ Feel free to implement `back`, although this is not required nor graded
-
+      constructor(text, char) {
+        this.text = text;
+        this.char = char;
+        this.current = 0
+      }
+      next() {
+        let result = this.text.slice(this.current, this.char)
+        this.current = this.char
+        this.char += this.char
+        if (!result) {
+          return null
+        }
+        return result
+      }
     }
 
     // 👉 CHALLENGE 4 AntFarm
@@ -130,8 +224,49 @@
       //      console.log(list) // prints ["a"]
       // 👉 HINT: if you are not feeling confident with map and filter, solve the problem with for loops,
       //      and with the piece of mind of all tests passing, refactor to use map/filter
+      constructor (...ants) {
+        this.ants = []
+        for(let i = 0; i < ants.length; i ++) {
+          let ant = {
+            name: ants[i],
+            health: 100
+          }
+          this.ants.push(ant)
+        }
+      }
+      work() {
+        let num = this.ants.length
+        this.ants.map(ant => {
+          ant.health -= 20
+          return ant
+        }) 
+        this.ants = this.ants.filter(ant => ant.health > 0)
 
-    }
+        if(!num) {
+          return "No ants here. Did you work them to death?"
+        }
+        return `${num} ants starting work!`
+      }
+      feed(nam){
+        let exist = 0
+        this.ants.map(ant => {
+          if (ant.name === nam) {
+            ant.health += 15
+            exist++
+          } 
+        })
+        if (exist > 0) {
+          return `Yum!`
+        } else {
+          return `${nam} not found!`
+        }
+
+
+      }
+
+      }
+
+    
 
     // 🧪 TESTS, do not make any changes below this line ===================
     // 🧪 TESTS, do not make any changes below this line ===================
